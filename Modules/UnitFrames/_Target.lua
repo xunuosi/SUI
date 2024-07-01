@@ -88,8 +88,10 @@ function Module:OnEnable()
 
             if (db.texture ~= 'Default') then
                 self.healthbar:SetStatusBarTexture(db.texture);
-                TargetFrameHealthBar.MyHealPredictionBar.Fill:SetTexture(db.texture)
-                TargetFrameHealthBar.MyHealPredictionBar.Fill:SetDrawLayer("BORDER")
+                if TargetFrameHealthBar.MyHealPredictionBar then
+                    TargetFrameHealthBar.MyHealPredictionBar.Fill:SetTexture(db.texture)
+                    TargetFrameHealthBar.MyHealPredictionBar.Fill:SetDrawLayer("BORDER")
+                end
             end
         end
 
@@ -100,9 +102,10 @@ function Module:OnEnable()
                 TargetFrameToTManaBar:SetStatusBarTexture(db.texture)
                 FocusFrameToTHealthBar:SetStatusBarTexture(db.texture)
                 FocusFrameToTManaBar:SetStatusBarTexture(db.texture)
-
-                FocusFrameHealthBar.MyHealPredictionBar.Fill:SetTexture(db.texture)
-                FocusFrameHealthBar.MyHealPredictionBar.Fill:SetDrawLayer("BORDER")
+                if FocusFrameHealthBar.MyHealPredictionBar then
+                    FocusFrameHealthBar.MyHealPredictionBar.Fill:SetTexture(db.texture)
+                    FocusFrameHealthBar.MyHealPredictionBar.Fill:SetDrawLayer("BORDER")
+                end    
             end
 
             TargetFrameToTTextureFrameDeadText:ClearAllPoints();
