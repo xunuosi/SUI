@@ -272,9 +272,14 @@ function SUI:OnInitialize()
             [select(2, SpellBookSkillLineTab3:GetRegions())] = true, [select(2, SpellBookSkillLineTab4:GetRegions())] = true,
             [select(1, ItemTextFrame:GetRegions())] = true, [select(6, SendMailMoneyGold:GetRegions())] = true,
             [select(6, SendMailMoneySilver:GetRegions())] = true, [select(6, SendMailMoneyCopper:GetRegions())] = true,
-            [select(12, CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:GetRegions())] = true,
             ["CalendarCreateEventIcon"] = true,
         }
+        
+        
+        if (CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton) then
+            local regions = CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:GetRegions()
+            forbiddenFrames[select(12,regions)] = true
+        end
 
         if (frame) then
             if not (isTable) then
