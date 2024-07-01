@@ -1,5 +1,9 @@
 # SUI
-
+<p style="text-align: left;"><span style="font-family: tahoma, arial, helvetica, sans-serif; font-size: 24px;">Custom</span></p>
+<ul>
+<li><span style="font-family: tahoma, arial, helvetica, sans-serif;">Add chinese font</span></li>
+<li><span style="font-family: tahoma, arial, helvetica, sans-serif;">Adapt china WOW WLK</span></li>
+</ul>
 <p style="text-align: left;"><span style="font-family: tahoma, arial, helvetica, sans-serif; font-size: 24px;">Features</span></p>
 <ul>
 <li><span style="font-family: tahoma, arial, helvetica, sans-serif;">Enhanced WoW Interface</span></li>
