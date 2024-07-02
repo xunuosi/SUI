@@ -19,6 +19,7 @@ LSM:Register("font", "Expressway", [[Interface\Addons\SUI\Media\Fonts\Expressway
 LSM:Register("font", "Inter Bold", [[Interface\Addons\SUI\Media\Fonts\InterBold.ttf]])
 LSM:Register("font", "MagistralTT Bold", [[Interface\Addons\SUI\Media\Fonts\MagistralTTBold.ttf]])
 LSM:Register("font", "Myriad Web Bold", [[Interface\Addons\SUI\Media\Fonts\MyriadWebBold.ttf]])
+LSM:Register("font", "ARHei", [[Interface\Addons\SUI\Media\Fonts\ARHei.ttf]])
 
 -- -----
 --   SOUND

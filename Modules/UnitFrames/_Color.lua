@@ -6,6 +6,9 @@ function Module:OnEnable()
     if (db) then
         if (db.classcolor) then
             function SUIUnitColor(healthbar, unit)
+                if healthbar == nil then
+                    return
+                end    
                 healthbar:SetStatusBarDesaturated(1)
                 if UnitIsPlayer(unit) and UnitIsConnected(unit) and UnitClass(unit) then
                     _, class = UnitClass(unit)

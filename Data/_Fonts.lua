@@ -10,4 +10,5 @@ Fonts.data = {
     { value = 'Interface\\Addons\\SUI\\Media\\Fonts\\InterBold.ttf',       text = 'Inter Bold' },
     { value = 'Interface\\Addons\\SUI\\Media\\Fonts\\MagistralTTBold.ttf', text = 'MagistralTT Bold' },
     { value = 'Interface\\Addons\\SUI\\Media\\Fonts\\MyriadWebBold.ttf',   text = 'Myriad Web Bold' },
+    { value = 'Interface\\Addons\\SUI\\Media\\Fonts\\ARHei.ttf',   text = 'ARHei' },
 }

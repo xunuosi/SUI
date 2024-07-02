@@ -73,6 +73,7 @@ function Module:OnEnable()
             lastUpdate = lastUpdate + elapsed
             if lastUpdate > 1 then
                 lastUpdate = 0
+                -- StatsFrame.text:SetFont("Fonts\\ARHei.TTF", 12, "OUTLINE")
                 StatsFrame.text:SetText(status())
                 self:SetWidth(StatsFrame.text:GetStringWidth())
                 self:SetHeight(StatsFrame.text:GetStringHeight())
