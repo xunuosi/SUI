@@ -39,8 +39,9 @@ function Module:OnEnable()
         SUI:Skin(DropDownList2MenuBackdrop.NineSlice)
         SUI:Skin(DropDownList3)
         SUI:Skin(DropDownList3Backdrop)
-        SUI:Skin(DropDownList3MenuBackdrop.NineSlice)
-
+        if (DropDownList3MenuBackdrop ~= nil) then
+            SUI:Skin(DropDownList3MenuBackdrop.NineSlice)
+        end
         SUI:Skin(ReportFrame)
         SUI:Skin(ReportFrame.Border)
         SUI:Skin(ReportFrame.ReportingMajorCategoryDropDown)

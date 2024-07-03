@@ -19,9 +19,17 @@ function Module:OnEnable()
 
         SpellBookPageText:SetTextColor(.8, .8, .8)
 
-        PrimaryProfession1Missing:GetTextColor()
-        PrimaryProfession1.missingText:SetTextColor(.8, .8, .8)
-        PrimaryProfession2.missingText:SetTextColor(.8, .8, .8)
+        -- PrimaryProfession1Missing:GetTextColor()
+        if (PrimaryProfession1 ~= nil) then
+            PrimaryProfession1.missingText:SetTextColor(.8, .8, .8)
+        end
+        if (PrimaryProfession2 ~= nil) then
+            PrimaryProfession2.missingText:SetTextColor(.8, .8, .8)
+        end
+
+        if (SecondaryProfession1Missing == nil) then
+            return
+        end
         SecondaryProfession1Missing:SetTextColor(.85, .7, .6)
         SecondaryProfession2Missing:SetTextColor(.85, .7, .6)
         SecondaryProfession3Missing:SetTextColor(.85, .7, .6)

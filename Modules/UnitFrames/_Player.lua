@@ -11,9 +11,11 @@ function Module:OnEnable()
             if (db.texture ~= 'Default') then
                 self.healthbar:SetStatusBarTexture(db.texture);
                 --self.healthbar.AnimatedLossBar:SetStatusBarTexture(db.texture);
-                PlayerFrameHealthBar.MyHealPredictionBar.Fill:SetTexture(db.texture)
-                PlayerFrameHealthBar.MyHealPredictionBar.Fill:SetDrawLayer("BORDER")
-
+                if (PlayerFrameHealthBar.MyHealPredictionBar ~= nil) then
+                    PlayerFrameHealthBar.MyHealPredictionBar.Fill:SetTexture(db.texture)
+                    PlayerFrameHealthBar.MyHealPredictionBar.Fill:SetDrawLayer("BORDER")
+                end    
+               
                 --PlayerFrameHealthBar.MyHealPredictionBar.FillMask:SetTexture(db.texture)
                 --PlayerFrameHealthBar.MyHealPredictionBar.FillMask:GetTexture()
                 PlayerFrameAlternateManaBar:SetStatusBarTexture(db.texture)

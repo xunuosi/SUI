@@ -5,7 +5,7 @@
 	<Script file = "_Flash.lua"/>
   	<Script file = "_Small.lua"/>
 	<Script file = "_DefaultNoBg.lua" />
-	<Script file = "_Mouseover.lua" />
+	<!-- <Script file = "_Mouseover.lua" /> -->
 	<Script file = "_Bindings.lua" />
 	<Script file = "_BFA.lua" />
 	<Script file = "_BFATransparent.lua" />

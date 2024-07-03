@@ -354,16 +354,20 @@ function Module:OnEnable()
             end
 
             styleExtraActionButton(ExtraActionButton1)
-            SpellFlyoutBackgroundEnd:SetTexture(nil)
-            SpellFlyoutHorizontalBackground:SetTexture(nil)
-            SpellFlyoutVerticalBackground:SetTexture(nil)
+            if (SpellFlyoutBackgroundEnd ~= nil) then
+                SpellFlyoutBackgroundEnd:SetTexture(nil)
+                SpellFlyoutHorizontalBackground:SetTexture(nil)
+                SpellFlyoutVerticalBackground:SetTexture(nil)
+            end
             local function checkForFlyoutButtons(self)
                 local NUM_FLYOUT_BUTTONS = 10
                 for i = 1, NUM_FLYOUT_BUTTONS do
                     styleActionButton(_G["SpellFlyoutButton" .. i])
                 end
             end
-            SpellFlyout:HookScript("OnShow", checkForFlyoutButtons)
+            if (SpellFlyout ~= nil) then
+                SpellFlyout:HookScript("OnShow", checkForFlyoutButtons)
+            end
             if dominos then
                 for i = 1, 120 do
                     if (_G["DominosActionButton" .. i]) then

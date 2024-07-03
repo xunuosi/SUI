@@ -24,7 +24,9 @@ function Module:OnEnable()
         SUI:Skin(CharacterMainHandSlot)
         SUI:Skin(CharacterSecondaryHandSlot)
         SUI:Skin(CharacterRangedSlot)
-        SUI:Skin(CharacterStatsPane.ScrollBar.Track)
+        if (CharacterStatsPane ~= nil) then
+            SUI:Skin(CharacterStatsPane.ScrollBar.Track)
+        end
         SUI:Skin(CharacterFrameInsetRight)
         SUI:Skin(CharacterFrameTab1)
         SUI:Skin(CharacterFrameTab3)

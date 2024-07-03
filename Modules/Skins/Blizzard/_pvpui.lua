@@ -13,39 +13,47 @@ function Module:OnEnable()
         SUI:Skin(PVPFrameTab4)
         SUI:Skin(PVPTeamManagementFrameWeeklyDisplay)
         SUI:Skin(WarGameStartButton)
-        SUI:Skin(PVPHonorFrame.bgTypeScrollBar.Background)
-        SUI:Skin(PVPHonorFrameInfoScrollFrameScrollBar)
-        SUI:Skin(PVPHonorFrameInfoScrollFrame.ScrollBar)
-        SUI:Skin(PVPHonorFrameInfoScrollFrame.ScrollBar.Background)
-        SUI:Skin(WarGamesFrame)
-        SUI:Skin(WarGamesFrame.scrollBar.Background)
-        SUI:Skin(WarGamesFrame.scrollBar)
-        SUI:Skin(WarGamesFrameInfoScrollFrameScrollBar)
-        SUI:Skin(WarGamesFrameInfoScrollFrame.ScrollBar)
-        SUI:Skin(WarGamesFrameInfoScrollFrame.ScrollBar.Background)
+        if (PVPHonorFrame ~= nil) then
+            SUI:Skin(PVPHonorFrame.bgTypeScrollBar.Background)
+            SUI:Skin(PVPHonorFrameInfoScrollFrameScrollBar)
+            SUI:Skin(PVPHonorFrameInfoScrollFrame.ScrollBar)
+            SUI:Skin(PVPHonorFrameInfoScrollFrame.ScrollBar.Background)
+        end
+        if (WarGamesFrame ~= nil) then
+            SUI:Skin(WarGamesFrame)
+            SUI:Skin(WarGamesFrame.scrollBar.Background)
+            SUI:Skin(WarGamesFrame.scrollBar)
+            SUI:Skin(WarGamesFrameInfoScrollFrameScrollBar)
+            SUI:Skin(WarGamesFrameInfoScrollFrame.ScrollBar)
+            SUI:Skin(WarGamesFrameInfoScrollFrame.ScrollBar.Background)
+            WarGamesFrameDescription:SetTextColor(.8, .8, .8)
+        end
         SUI:Skin(PVPConquestFrame)
         SUI:Skin(PVPTeamManagementFrame)
         SUI:Skin(PVPTeam1)
         SUI:Skin(PVPTeam2)
         SUI:Skin(PVPTeam3)
         --PVPHonorFrameBGTex:SetVertexColor(.5, .5, .5)
-        PVPHonorFrameInfoScrollFrameChildFrameDescription:SetTextColor(.8, .8, .8)
-        PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoDescription:SetTextColor(.8, .8, .8)
-        WarGamesFrameDescription:SetTextColor(.8, .8, .8)
+        if (PVPHonorFrameInfoScrollFrameChildFrameDescription ~= nil) then
+            PVPHonorFrameInfoScrollFrameChildFrameDescription:SetTextColor(.8, .8, .8)
+            PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoDescription:SetTextColor(.8, .8, .8)
+        end
 
         -- Buttons
-        SUI:Skin({
-            PVPFrameLeftButton.Left,
-            PVPFrameLeftButton.Middle,
-            PVPFrameLeftButton.Right,
-            PVPFrameRightButton.Left,
-            PVPFrameRightButton.Middle,
-            PVPFrameRightButton.Right,
-            WarGameStartButton.Left,
-            WarGameStartButton.Middle,
-            WarGameStartButton.Right
-        }, false, true, false, true)
-
+        if (PVPFrameLeftButton ~= nil) then
+            SUI:Skin({
+                PVPFrameLeftButton.Left,
+                PVPFrameLeftButton.Middle,
+                PVPFrameLeftButton.Right,
+                PVPFrameRightButton.Left,
+                PVPFrameRightButton.Middle,
+                PVPFrameRightButton.Right,
+                WarGameStartButton.Left,
+                WarGameStartButton.Middle,
+                WarGameStartButton.Right
+            }, false, true, false, true)    
+        end
+       
         local f = CreateFrame("Frame")
         f:RegisterEvent("ADDON_LOADED")
         f:SetScript("OnEvent", function(self, event, name)
