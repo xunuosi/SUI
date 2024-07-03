@@ -3,15 +3,21 @@ local Module = SUI:NewModule("UnitFrames.Party");
 function Module:OnEnable()
     local db = {
         unitframes = SUI.db.profile.unitframes,
-        texture = SUI.db.profile.general.texture
+        texture = SUI.db.profile.general.texture,
+        module = SUI.db.profile.modules.unitframes
     }
+
+    local textureSet = {}
 
     function SUIPartyFrames(self)
         local useCompact = GetCVarBool("useCompactPartyFrames")
         if (IsInGroup() and (not IsInRaid()) and (not useCompact)) then
-            if ((self and self.HealthBar and self.ManaBar) and (db.texture ~= 'Default')) then
-                self.HealthBar:SetStatusBarTexture(db.texture)
-                self.ManaBar:SetStatusBarTexture(db.texture)
+            if ((self and self.healthbar and self.manabar) and (db.texture ~= 'Default')) then
+                if (textureSet[self.unit]) then return end
+                self.healthbar:SetStatusBarTexture(db.texture)
+                self.manabar:SetStatusBarTexture(db.texture)
+
+                textureSet[self.unit] = self.unit
             end
             if (db.unitframes.style == 'Big') then
                 self.name:SetSize(75, 10)
@@ -31,7 +37,7 @@ function Module:OnEnable()
                     local healthBarTextRight = _G["PartyMemberFrame" .. i .. "HealthBarTextRight"]
                     local manaBarTextLeft = _G["PartyMemberFrame" .. i .. "ManaBarTextLeft"]
                     local manaBarTextRight = _G["PartyMemberFrame" .. i .. "ManaBarTextRight"]
-                    
+
                     if (texture and flash) then
                         texture:SetTexture([[Interface\Addons\SUI\Media\Textures\unitframes\UI-PartyFrame]])
                         flash:SetTexture([[Interface\Addons\SUI\Media\Textures\unitframes\UI-PARTYFRAME-FLASH]])
@@ -59,5 +65,7 @@ function Module:OnEnable()
         end
     end
 
-    hooksecurefunc("PartyMemberFrame_OnUpdate", SUIPartyFrames)
+    if (db.module) then
+        hooksecurefunc("PartyMemberFrame_OnUpdate", SUIPartyFrames)
+    end
 end

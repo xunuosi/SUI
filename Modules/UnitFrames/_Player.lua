@@ -2,11 +2,14 @@ local Module = SUI:NewModule("UnitFrames.Player");
 
 function Module:OnEnable()
     local db = {
-        unitframes = SUI.db.profile.unitframes,
-        texture = SUI.db.profile.general.texture
+        style = SUI.db.profile.unitframes.style,
+        pvpbade = SUI.db.profile.unitframes.pvpbade,
+        texture = SUI.db.profile.general.texture,
+        size = SUI.db.profile.unitframes.size,
+        module = SUI.db.profile.modules.unitframes
     }
 
-    if (db.unitframes) then
+    if (db.module) then
         local function SUIPlayerFrame(self)
             if (db.texture ~= 'Default') then
                 self.healthbar:SetStatusBarTexture(db.texture);
@@ -24,7 +27,7 @@ function Module:OnEnable()
                 -- PlayerFrameManaBar.FeedbackFrame.GainGlowTexture:SetTexture(db.texture);
             end
 
-            if (db.unitframes.style == "Big") then
+            if (db.style == "Big") then
                 PlayerFrameTexture:SetTexture([[Interface\Addons\SUI\Media\Textures\UnitFrames\UI-TargetingFrame]]);
                 self.name:ClearAllPoints();
                 self.name:SetPoint("CENTER", PlayerFrame, "CENTER", 50.5, 36);
@@ -57,15 +60,9 @@ function Module:OnEnable()
                 PlayerFrameGroupIndicatorRight:Hide();
             end
 
-            if not (db.unitframes.pvpbadge) then
+            if not (db.pvpbadge) then
                 hooksecurefunc("PlayerFrame_UpdatePvPStatus", function()
                     PlayerPVPIcon:Hide()
-                end)
-            end
-
-            if (db.unitframes.style == "Small") then
-                hooksecurefunc('TargetFrame_CheckFaction', function(self)
-                    self.nameBackground:SetVertexColor(0.0, 0.0, 0.0, 0.5);
                 end)
             end
         end
@@ -73,7 +70,7 @@ function Module:OnEnable()
         local Size = CreateFrame("Frame")
         Size:RegisterEvent("ADDON_LOADED")
         Size:SetScript("OnEvent", function()
-            PlayerFrame:SetScale(db.unitframes.size)
+            PlayerFrame:SetScale(db.size)
         end)
 
         hooksecurefunc("PlayerFrame_ToPlayerArt", SUIPlayerFrame)

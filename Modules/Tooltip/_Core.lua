@@ -6,7 +6,8 @@ function Module:OnEnable()
         mouseanchor = SUI.db.profile.tooltip.mouseanchor,
         lifeontop = SUI.db.profile.tooltip.lifeontop,
         hideincombat = SUI.db.profile.tooltip.hideincombat,
-        texture = SUI.db.profile.general.texture
+        texture = SUI.db.profile.general.texture,
+        module = SUI.db.profile.modules.tooltip
     }
 
     local TooltipFrame = CreateFrame('Frame', "TooltipFrame", UIParent)
@@ -14,7 +15,7 @@ function Module:OnEnable()
     TooltipFrame:SetSize(150, 25)
 
     -- tooltip anchor
-    if (db.mouseanchor) then
+    if (db.mouseanchor and db.module) then
         hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip, parent)
             tooltip:SetOwner(parent, "ANCHOR_CURSOR")
         end)
@@ -26,7 +27,7 @@ function Module:OnEnable()
         end)
     end
 
-    if (db.style == "Custom") then
+    if (db.style == "Custom" and db.module) then
         FONT = STANDARD_TEXT_FONT
         local classColorHex, factionColorHex = {}, {}
 
@@ -114,14 +115,14 @@ function Module:OnEnable()
                     levelLine:SetTextColor(color.r, color.g, color.b)
                 end
                 if unitClassification == "worldboss" or UnitLevel(unit) == -1 then
-                    self:AppendText(" |cffff0000{B}|r")
+                    self:AppendText(" |cffff0000[B]|r")
                     GameTooltipTextLeft2:SetTextColor(unpack(cfg.bossColor))
                 elseif unitClassification == "rare" then
-                    self:AppendText(" |cffff9900{R}|r")
+                    self:AppendText(" |cffff9900[R]|r")
                 elseif unitClassification == "rareelite" then
-                    self:AppendText(" |cffff0000{R+}|r")
+                    self:AppendText(" |cffff0000[R+]|r")
                 elseif unitClassification == "elite" then
-                    self:AppendText(" |cffff6666{E}|r")
+                    self:AppendText(" |cffff6666[E]|r")
                 end
             else
                 --unit is any player
@@ -272,7 +273,7 @@ function Module:OnEnable()
         end)
     end
 
-    if (db.hideincombat) then
+    if (db.hideincombat and db.module) then
         local f = CreateFrame("Frame")
         f:RegisterEvent("PLAYER_REGEN_DISABLED")
         f:RegisterEvent("PLAYER_REGEN_ENABLED")

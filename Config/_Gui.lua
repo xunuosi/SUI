@@ -64,7 +64,7 @@ function Gui:OnEnable()
     local db = SUI.db
 
     -- Config
-    local config = SUIConfig:Window(UIParent, 700, 425)
+    local config = SUIConfig:Window(UIParent, 700, 455)
     config:SetPoint('CENTER')
     config.titlePanel:SetPoint('LEFT', 10, 0)
     config.titlePanel:SetPoint('RIGHT', -35, 0)
@@ -158,7 +158,7 @@ function Gui:OnEnable()
     end)
 
     --Save
-    local save = SUIConfig:Button(config, 160, 25, 'Save')
+    local save = SUIConfig:Button(config, 160, 25, 'Save / Reload')
     SUIConfig:GlueBottom(save, config, 10, 10, 'LEFT')
     save:SetScript('OnClick', function()
         ReloadUI()
@@ -176,11 +176,79 @@ function Gui:OnEnable()
         { title = 'Map',        name = 'Map' },
         { title = 'Chat',       name = 'Chat' },
         { title = 'Misc',       name = 'Misc' },
+        { title = 'Modules',    name = 'Modules' },
         { title = 'Profile',    name = 'Profile' },
         { title = 'FAQ',        name = 'FAQ' },
     }
     local tabs = SUIConfig:TabPanel(config, nil, nil, categories, true, nil, 25)
     SUIConfig:GlueAcross(tabs, config, 10, -35, -10, 10)
+
+    -- Module Button Texts
+    local function moduleText (module)
+        if not module then return end
+
+        if (module == 'General') then
+            if (SUI.db.profile.modules.general) then
+                return 'Disable General'
+            else
+                return 'Enable General'
+            end
+        elseif (module == 'Unitframes') then
+            if (SUI.db.profile.modules.unitframes) then
+                return 'Disable Unitframes'
+            else
+                return 'Enable Unitframes'
+            end
+        elseif (module == 'Nameplates') then
+            if (SUI.db.profile.modules.nameplates) then
+                return 'Disable Nameplates'
+            else
+                return 'Enable Nameplates'
+            end
+        elseif (module == 'Actionbar') then
+            if (SUI.db.profile.modules.actionbar) then
+                return 'Disable Actionbar'
+            else
+                return 'Enable Actionbar'
+            end
+        elseif (module == 'Castbars') then
+            if (SUI.db.profile.modules.castbars) then
+                return 'Disable Castbars'
+            else
+                return 'Enable Castbars'
+            end
+        elseif (module == 'Tooltip') then
+            if (SUI.db.profile.modules.tooltip) then
+                return 'Disable Tooltip'
+            else
+                return 'Enable Tooltip'
+            end
+        elseif (module == 'Buffs') then
+            if (SUI.db.profile.modules.buffs) then
+                return 'Disable Buffs'
+            else
+                return 'Enable Buffs'
+            end
+        elseif (module == 'Map') then
+            if (SUI.db.profile.modules.map) then
+                return 'Disable Map'
+            else
+                return 'Enable Map'
+            end
+        elseif (module == 'Chat') then
+            if (SUI.db.profile.modules.chat) then
+                return 'Disable Chat'
+            else
+                return 'Enable Chat'
+            end
+        elseif (module == 'Misc') then
+            if (SUI.db.profile.modules.misc) then
+                return 'Disable Misc'
+            else
+                return 'Enable Misc'
+            end
+        end
+    end
 
     --Options
     local options = {
@@ -220,16 +288,16 @@ function Gui:OnEnable()
                         order = 3
                     }
                 },
-                -- {
-                --   color = {
-                --     key = 'color',
-                --     type = 'color',
-                --     label = 'Custom Color',
-                --     column = 3,
-                --     update = function() end,
-                --     cancel = function() end
-                --   }
-                -- },
+                {
+                  color = {
+                    key = 'color',
+                    type = 'color',
+                    label = 'Custom Color',
+                    column = 3,
+                    update = function() end,
+                    cancel = function() end
+                  }
+                },
                 {
                     header = {
                         type = 'header',
@@ -509,8 +577,8 @@ function Gui:OnEnable()
                         type = 'dropdown',
                         label = 'Style',
                         options = {
-                            { value = 1, text = 'Default' },
-                            { value = 2, text = 'Custom' }
+                            { value = 'Default', text = 'Default' },
+                            { value = 'Custom', text = 'Custom' }
                         },
                         column = 5,
                         order = 1
@@ -668,7 +736,7 @@ function Gui:OnEnable()
                     size = {
                         key = 'buttons.size',
                         type = 'slider',
-                        label = 'Size',
+                        label = 'Button Size',
                         max = 50,
                         column = 4,
                         order = 1
@@ -676,10 +744,38 @@ function Gui:OnEnable()
                     padding = {
                         key = 'buttons.padding',
                         type = 'slider',
-                        label = 'Padding',
+                        label = 'Button Padding',
                         min = 1,
                         max = 5,
                         column = 4,
+                        order = 2
+                    }
+                },
+                {
+                    micromenu = {
+                        key = 'micromenu',
+                        type = 'dropdown',
+                        label = 'MicroMenu',
+                        options = {
+                            { value = 'always',     text = 'Show always' },
+                            { value = 'mouseover',  text = 'Show on Mouseover' },
+                            { value = 'hidden',     text = 'Hide always' }
+                        },
+                        initialValue = 1,
+                        column = 5,
+                        order = 1
+                    },
+                    bagbuttons = {
+                        key = 'bagbuttons',
+                        type = 'dropdown',
+                        label = 'Bag Buttons',
+                        options = {
+                            { value = 'always',     text = 'Show always' },
+                            { value = 'mouseover',  text = 'Show on Mouseover' },
+                            { value = 'hidden',     text = 'Hide always' }
+                        },
+                        initialValue = 1,
+                        column = 5,
                         order = 2
                     }
                 },
@@ -690,39 +786,21 @@ function Gui:OnEnable()
                     },
                 },
                 {
-                    mouseoverMicro = {
-                        key = 'menu.mouseovermicro',
-                        type = 'checkbox',
-                        label = 'MicroMenu',
-                        tooltip = 'Show MicroMenu on mouseover',
-                        column = 4,
-                        order = 1
-                    },
-                    mouseoverBagButtons = {
-                        key = 'menu.mouseoverbags',
-                        type = 'checkbox',
-                        label = 'BagButtons',
-                        tooltip = 'Show Bag Buttons on mouseover',
-                        column = 4,
-                        order = 2
-                    },
                     actionBar3 = {
                         key = 'mouseover.bar3',
                         type = 'checkbox',
                         label = 'ActionBar 3',
                         tooltip = 'Show ActionBar 3 on mouseover',
                         column = 4,
-                        order = 3
-                    }
-                },
-                {
+                        order = 1
+                    },
                     actionBar4 = {
                         key = 'mouseover.bar4',
                         type = 'checkbox',
                         label = 'ActionBar 4',
                         tooltip = 'Show ActionBar 4 on mouseover',
                         column = 4,
-                        order = 1
+                        order = 2
                     },
                     actionBar5 = {
                         key = 'mouseover.bar5',
@@ -730,15 +808,17 @@ function Gui:OnEnable()
                         label = 'ActionBar 5',
                         tooltip = 'Show ActionBar 5 on mouseover',
                         column = 4,
-                        order = 2
-                    },
+                        order = 3
+                    }
+                },
+                {
                     stanceBar = {
                         key = 'mouseover.stancebar',
                         type = 'checkbox',
                         label = 'Stance Bar',
                         tooltip = 'Show Stance Bar on mouseover',
                         column = 4,
-                        order = 3
+                        order = 1
                     }
                 }
             },
@@ -750,7 +830,7 @@ function Gui:OnEnable()
                 {
                     header = {
                         type = 'header',
-                        label = 'Chastbars'
+                        label = 'Castbars'
                     }
                 },
                 {
@@ -858,17 +938,25 @@ function Gui:OnEnable()
                 {
                     header = {
                         type = 'header',
-                        label = 'Player'
+                        label = 'Player Buffs/Debuffs'
                     }
                 },
                 {
+                    debuffType = {
+                        key = 'buffs.debufftype',
+                        type = 'checkbox',
+                        label = 'Debuff Colors',
+                        tooltip = 'Show Debuff-School Colors',
+                        column = 4,
+                        order = 1
+                    },
                     fading = {
                         key = 'buffs.fading',
                         type = 'checkbox',
                         label = 'No Fading',
-                        tooltip = 'No Buff/Debuff fading when expiring',
+                        tooltip = 'No Fading for expiring Buffs and Debuffs',
                         column = 3,
-                        order = 1
+                        order = 2
                     }
                 },
                 {
@@ -914,8 +1002,18 @@ function Gui:OnEnable()
                 {
                     header = {
                         type = 'header',
-                        label = 'Unitframes'
+                        label = 'Unitframe Buffs/Debuffs'
                     },
+                },
+                {
+                    debuffType = {
+                        key = 'unitframes.debuffs.debufftype',
+                        type = 'checkbox',
+                        label = 'Debuff Colors',
+                        tooltip = 'Show Debuff-School Colors',
+                        column = 4,
+                        order = 2
+                    }
                 },
                 {
                     big = {
@@ -1086,7 +1184,7 @@ function Gui:OnEnable()
             },
         },
         Misc = {
-            layoutConfig = { padding = { top = 15 } },
+            --layoutConfig = { padding = { top = 15 } },
             database = db.profile.misc,
             rows = {
                 {
@@ -1147,6 +1245,14 @@ function Gui:OnEnable()
                         column = 3,
                         order = 1
                       },
+                      expbar = {
+                        key = 'expbar',
+                        type = 'checkbox',
+                        label = 'Show Exp Bar',
+                        tooltip = 'Show Exp Bar when using Small Actionbar profile',
+                        column = 4,
+                        order = 2
+                    }
                 },
                 {
                     header = {
@@ -1163,8 +1269,248 @@ function Gui:OnEnable()
                         column = 3,
                         order = 2
                     }
-                }
+                },
             },
+        },
+        Modules = {
+            database = db.profile.modules,
+            layoutConfig = { padding = { top = 15 } },
+            rows = {
+                {
+                    header = {
+                        type = 'header',
+                        label = 'Enable/Disable Modules'
+                    },
+                },
+                {
+                    general = {
+                        key = 'general',
+                        type = 'button',
+                        text = moduleText('General'),
+                        height = 40,
+                        column = 4,
+                        order = 1,
+                        onClick = function(self)
+                            if (db.profile.modules.general) then
+                                db.profile.modules.general = false
+                                self:SetChecked(false)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'General' |cffff0000deactivated|r.", "Reload required.")
+                            else
+                                db.profile.modules.general = true
+                                self:SetChecked(true)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'General' |cff00ff77activated|r.", "Reload required.")
+                            end
+                            self.text:SetText(moduleText('General'))
+                        end
+                    },
+                    unitframes = {
+                        key = 'unitframes',
+                        type = 'button',
+                        text = moduleText('Unitframes'),
+                        height = 40,
+                        column = 4,
+                        order = 2,
+                        onClick = function(self)
+                            if (db.profile.modules.unitframes) then
+                                db.profile.modules.unitframes = false
+                                self:SetChecked(false)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Unitframes' |cffff0000deactivated|r.", "Reload required.")
+                            else
+                                db.profile.modules.unitframes = true
+                                self:SetChecked(true)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Unitframes' |cff00ff77activated|r.", "Reload required.")
+                            end
+                            self.text:SetText(moduleText('Unitframes'))
+                        end
+                    },
+                    nameplates = {
+                        key = 'nameplates',
+                        type = 'button',
+                        text = moduleText('Nameplates'),
+                        height = 40,
+                        column = 4,
+                        order = 3,
+                        onClick = function(self)
+                            if (db.profile.modules.nameplates) then
+                                db.profile.modules.nameplates = false
+                                self:SetChecked(false)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Nameplates' |cffff0000deactivated|r.", "Reload required.")
+                            else
+                                db.profile.modules.nameplates = true
+                                self:SetChecked(true)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Nameplates' |cff00ff77activated|r.", "Reload required.")
+                            end
+                            self.text:SetText(moduleText('Nameplates'))
+                        end
+                    }
+                },
+                {
+                    actionbar = {
+                        key = 'actionbar',
+                        type = 'button',
+                        text = moduleText('Actionbar'),
+                        height = 40,
+                        column = 4,
+                        order = 1,
+                        onClick = function(self)
+                            if (db.profile.modules.actionbar) then
+                                db.profile.modules.actionbar = false
+                                self:SetChecked(false)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Actionbar' |cffff0000deactivated|r.", "Reload required.")
+                            else
+                                db.profile.modules.actionbar = true
+                                self:SetChecked(true)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Actionbar' |cff00ff77activated|r.", "Reload required.")
+                            end
+                            self.text:SetText(moduleText('Actionbar'))
+                        end
+                    },
+                    castbars = {
+                        key = 'castbars',
+                        type = 'button',
+                        text = moduleText('Castbars'),
+                        height = 40,
+                        column = 4,
+                        order = 2,
+                        onClick = function(self)
+                            if (db.profile.modules.castbars) then
+                                db.profile.modules.castbars = false
+                                self:SetChecked(false)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Castbars' |cffff0000deactivated|r.", "Reload required.")
+                            else
+                                db.profile.modules.castbars = true
+                                self:SetChecked(true)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Castbars' |cff00ff77activated|r.", "Reload required.")
+                            end
+                            self.text:SetText(moduleText('Castbars'))
+                        end
+                    },
+                    tooltip = {
+                        key = 'tooltip',
+                        type = 'button',
+                        text = moduleText('Tooltip'),
+                        height = 40,
+                        column = 4,
+                        order = 3,
+                        onClick = function(self)
+                            if (db.profile.modules.tooltip) then
+                                db.profile.modules.tooltip = false
+                                self:SetChecked(false)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Tooltip' |cffff0000deactivated|r.", "Reload required.")
+                            else
+                                db.profile.modules.tooltip = true
+                                self:SetChecked(true)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Tooltip' |cff00ff77activated|r.", "Reload required.")
+                            end
+                            self.text:SetText(moduleText('Tooltip'))
+                        end
+                    }
+                },
+                {
+                    buffs = {
+                        key = 'buffs',
+                        type = 'button',
+                        text = moduleText('Buffs'),
+                        height = 40,
+                        column = 4,
+                        order = 1,
+                        onClick = function(self)
+                            if (db.profile.modules.buffs) then
+                                db.profile.modules.buffs = false
+                                self:SetChecked(false)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Buffs' |cffff0000deactivated|r.", "Reload required.")
+                            else
+                                db.profile.modules.buffs = true
+                                self:SetChecked(true)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Buffs' |cff00ff77activated|r.", "Reload required.")
+                            end
+                            self.text:SetText(moduleText('Buffs'))
+                        end
+                    },
+                    map = {
+                        key = 'map',
+                        type = 'button',
+                        text = moduleText('Map'),
+                        height = 40,
+                        column = 4,
+                        order = 2,
+                        onClick = function(self)
+                            if (db.profile.modules.map) then
+                                db.profile.modules.map = false
+                                self:SetChecked(false)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Map' |cffff0000deactivated|r.", "Reload required.")
+                            else
+                                db.profile.modules.map = true
+                                self:SetChecked(true)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Map' |cff00ff77activated|r.", "Reload required.")
+                            end
+                            self.text:SetText(moduleText('Map'))
+                        end
+                    },
+                    chat = {
+                        key = 'chat',
+                        type = 'button',
+                        text = moduleText('Chat'),
+                        height = 40,
+                        column = 4,
+                        order = 3,
+                        onClick = function(self)
+                            if (db.profile.modules.chat) then
+                                db.profile.modules.chat = false
+                                self:SetChecked(false)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Chat' |cffff0000deactivated|r.", "Reload required.")
+                            else
+                                db.profile.modules.chat = true
+                                self:SetChecked(true)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Chat' |cff00ff77activated|r.", "Reload required.")
+                            end
+                            self.text:SetText(moduleText('Chat'))
+                        end
+                    }
+                },
+                {
+                    misc = {
+                        key = 'misc',
+                        type = 'button',
+                        text = moduleText('Misc'),
+                        height = 40,
+                        column = 4,
+                        order = 1,
+                        onClick = function(self)
+                            if (db.profile.modules.misc) then
+                                db.profile.modules.misc = false
+                                self:SetChecked(false)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Misc' |cffff0000deactivated|r.", "Reload required.")
+                            else
+                                db.profile.modules.misc = true
+                                self:SetChecked(true)
+
+                                print("|cffff00d5S|r|cff027bffUI|r:", "Module 'Misc' |cff00ff77activated|r.", "Reload required.")
+                            end
+                            self.text:SetText(moduleText('Misc'))
+                        end
+                    },
+                }
+            }
         },
         Profile = {
             layoutConfig = { padding = { top = 15 } },
