@@ -7,6 +7,7 @@ function Module:OnEnable()
 	}
 
 	if ((db.style == 'BFATransparent' or db.style ~= 'BFA') and (db.module)) then
+		print("BFATransparent status bar is hide")
 		RetailUIArtFrame:Hide()
 		RetailUIStatusBars:Hide()
 		MicroButtonAndBagsBar:Hide()
@@ -176,12 +177,12 @@ function Module:OnEnable()
 
 		local function Toggle_StatusBars(SmallUpper, Small, LargeUpper, Large)
 			if SmallUpper then
-				RetailUIStatusBars.SingleBarSmallUpper:Hide()
+				RetailUIStatusBars.SingleBarSmallUpper:Show()
 			else
 				RetailUIStatusBars.SingleBarSmallUpper:Hide()
 			end
 			if Small then
-				RetailUIStatusBars.SingleBarSmall:Hide()
+				RetailUIStatusBars.SingleBarSmall:Show()
 			else
 				RetailUIStatusBars.SingleBarSmall:Hide()
 			end

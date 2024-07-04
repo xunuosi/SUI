@@ -8,6 +8,7 @@ function Module:OnEnable()
 	}
 
 	if (db.style == 'Small' and db.module) then
+		print("Small is enable")
 		local size = db.buttons.size
 		local spacing = db.buttons.padding
 
@@ -28,8 +29,8 @@ function Module:OnEnable()
 			MainMenuBarRightEndCap,
 			ActionBarUpButton,
 			ActionBarDownButton,
-			ReputationWatchBar,
-			MainMenuExpBar,
+			-- ReputationWatchBar,
+			-- MainMenuExpBar,
 			ArtifactWatchBar,
 			HonorWatchBar,
 			MainMenuBarPageNumber,
@@ -41,7 +42,7 @@ function Module:OnEnable()
 
 		for _, frame in pairs(BlizzArt) do
 			frame:SetParent(invisible)
-			MainMenuExpBar:SetAlpha(0)
+			-- MainMenuExpBar:SetAlpha(0.5)
 		end
 
 		SUIMainMenuBar = CreateFrame("Frame", "SUIMainMenuBar", UIParent)

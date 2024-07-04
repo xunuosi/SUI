@@ -7,6 +7,7 @@ function Module:OnEnable()
 	}
 
 	if ((db.style == 'BFATransparent' or db.style ~= 'BFA') and db.module) then
+		print("status bar is hide")
 		RetailUIArtFrame:Hide()
 		RetailUIStatusBars:Hide()
 		MicroButtonAndBagsBar:Hide()

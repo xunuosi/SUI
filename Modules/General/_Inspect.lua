@@ -75,7 +75,7 @@ function Module:OnEnable()
                 local slotilvl = ""
                 if frameName and ItemLinks[slotName] then
                     slotilvl = GetDetailedItemLevelInfo(ItemLinks[slotName])
-                    local _, _, quality, _, _, _, _, _, _, _ = C_Item.GetItemInfo(ItemLinks[slotName])
+                    local _, _, quality, _, _, _, _, _, _, _ = GetItemInfo(ItemLinks[slotName])
                     if (quality) then
                         local hex = select(4,GetItemQualityColor(quality))
                         itemiLvlText = "|c"..hex..slotilvl.."|r"
