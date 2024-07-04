@@ -1,7 +1,7 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\..\Blizzard_SharedXML\UI.xsd">
 
-    <StatusBar name="SUIExpBar" inherits="TextStatusBar">
+    <StatusBar name="SUIExpBar" inherits="TextStatusBar" parent="UIParent">
         <Size>
             <AbsDimension x="350" y="11" />
         </Size>
@@ -118,7 +118,5 @@
 			<OnEvent function="SUIExhaustionTick_OnEvent"/>
 			<OnLeave function="GameTooltip_Hide"/>
 		</Scripts>
-		<NormalTexture name="SUIExhaustionTickNormal" file="Interface\MainMenuBar\UI-ExhaustionTickNormal"/>
-		<HighlightTexture name="SUIExhaustionTickHighlight" file="Interface\MainMenuBar\UI-ExhaustionTickHighlight" alphaMode="ADD"/>
 	</Button>
 </Ui>
