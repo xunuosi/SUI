@@ -6,6 +6,10 @@ function Module:OnEnable()
         module = SUI.db.profile.modules.chat
     }
 
+    if (FriendsMicroButton == nil) then 
+        return
+    end
+
     if ((not db.quickjoin) and db.module)then
         FriendsMicroButton:Hide()
         FriendsMicroButton.Show = function()
