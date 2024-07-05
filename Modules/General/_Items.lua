@@ -51,9 +51,9 @@ function Module:OnEnable()
                         realItemLevel = realItemLevel or ""
 
                         local itemiLvlText = "";
-                        if(quality)then
-                            local hex = select(4,GetItemQualityColor(quality));
-                            itemiLvlText = "|c"..hex..realItemLevel.."|r";
+                        if (quality) then
+                            local hex = select(4, GetItemQualityColor(quality));
+                            itemiLvlText = "|c" .. hex .. realItemLevel .. "|r";
                         else
                             itemiLvlText = realItemLevel;
                         end
@@ -196,8 +196,8 @@ function Module:OnEnable()
                         if (itemlevel > 100) then
                             local itemiLvlText = ""
                             if (quality) then
-                                local hex = select(4,GetItemQualityColor(quality))
-                                itemiLvlText = "|c"..hex..itemlevel.."|r"
+                                local hex = select(4, GetItemQualityColor(quality))
+                                itemiLvlText = "|c" .. hex .. itemlevel .. "|r"
                             else
                                 itemiLvlText = itemlevel
                             end
@@ -229,8 +229,8 @@ function Module:OnEnable()
                 local _, _, quality, _, _, _, _, _, _, _ = C_Item.GetItemInfo(ItemLink)
                 --local quality = GetInventoryItemQuality(unit, slot)
                 if (quality) then
-                    local hex = select(4,GetItemQualityColor(quality))
-                    itemiLvlText = "|c"..hex..ilvl.."|r"
+                    local hex = select(4, GetItemQualityColor(quality))
+                    itemiLvlText = "|c" .. hex .. ilvl .. "|r"
                 else
                     itemiLvlText = ilvl
                 end
