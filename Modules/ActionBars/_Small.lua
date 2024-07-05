@@ -29,8 +29,8 @@ function Module:OnEnable()
 			MainMenuBarRightEndCap,
 			ActionBarUpButton,
 			ActionBarDownButton,
-			-- ReputationWatchBar,
-			-- MainMenuExpBar,
+			ReputationWatchBar,
+			MainMenuExpBar,
 			ArtifactWatchBar,
 			HonorWatchBar,
 			MainMenuBarPageNumber,
@@ -42,7 +42,7 @@ function Module:OnEnable()
 
 		for _, frame in pairs(BlizzArt) do
 			frame:SetParent(invisible)
-			-- MainMenuExpBar:SetAlpha(0.5)
+			MainMenuExpBar:SetAlpha(0.5)
 		end
 
 		SUIMainMenuBar = CreateFrame("Frame", "SUIMainMenuBar", UIParent)
