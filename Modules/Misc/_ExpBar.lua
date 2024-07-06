@@ -11,7 +11,8 @@ function expBar:OnEnable()
     if (db.expbar and db.style == 'Small' and db.module) then
         -- Reposition Exp Bar
         SUIExpBar:ClearAllPoints()
-        SUIExpBar:SetPoint("LEFT", SUIMainMenuBar, "LEFT", 1, -30)
+        -- SUIExpBar:SetPoint("LEFT", SUIMainMenuBar, "LEFT", 1, -30)
+        SUIExpBar:SetPoint("TOP", UIParent, "TOP", 0, 0)
         SUIExpBar:SetWidth(SUIMainMenuBar:GetWidth()-5.5)
 
         -- Status Text
