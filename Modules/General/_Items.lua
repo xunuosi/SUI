@@ -9,8 +9,28 @@ function Module:OnEnable()
     if (db.ilvl and db.module) then
         local equiped = {} -- Table to store equiped items
 
-        local f = CreateFrame("Frame", nil, _G.PaperDollFrame)
-        local g = CreateFrame("Frame", nil, _G.InspectPaperDollFrame)
+        local f = CreateFrame("Frame", "SUI_PaperDollFrame", _G.PaperDollFrame)
+        local g = CreateFrame("Frame", "SUI_InspectPaperDollFrame", _G.InspectPaperDollFrame)
+
+        local itemsLeft = {
+            [1] = true,
+            [2] = true,
+            [3] = true,
+            [5] = true,
+            [9] = true,
+            [15] = true
+        }
+
+        local itemsRight = {
+            [6] = true,
+            [7] = true,
+            [8] = true,
+            [10] = true,
+            [11] = true,
+            [12] = true,
+            [13] = true,
+            [14] = true
+        }
 
         local S_ITEM_LEVEL = "^" .. gsub(ITEM_LEVEL, "%%d", "(%%d+)")
 
@@ -46,9 +66,116 @@ function Module:OnEnable()
                         equiped[i] = itemLink
                     end
 
+                    -- Enchant Texts
+                    if not (frame[i].Enchant) then
+                        frame[i].Enchant = frame:CreateFontString(frame[i]:GetName().."Enchant", "OVERLAY")
+                        frame[i].Enchant:SetTextColor(0, 1, 0, 1)
+                        frame[i].Enchant:SetJustifyH("LEFT")
+                        frame[i].Enchant:SetJustifyV("TOP")
+                        frame[i].Enchant:SetFont(FONT, 11, 'OUTLINE')
+                    end
+
+                    -- Socket Frames
+                    if not (frame[i].Socket1 and frame[i].Socket2 and frame[i].Socket3) then
+                        frame[i].Socket1 = frame:CreateFontString(frame[i]:GetName().."Socket1", "OVERLAY")
+                        frame[i].Socket2 = frame:CreateFontString(frame[i]:GetName().."Socket2", "OVERLAY")
+                        frame[i].Socket3 = frame:CreateFontString(frame[i]:GetName().."Socket3", "OVERLAY")
+
+                        frame[i].Socket1:SetFont(FONT, 13, 'OUTLINE')
+                        frame[i].Socket2:SetFont(FONT, 13, 'OUTLINE')
+                        frame[i].Socket3:SetFont(FONT, 13, 'OUTLINE')
+                    end
+
                     if itemLink then
                         local realItemLevel = _getRealItemLevel(i, unit)
+                        local enchantID = ParseItemLink(itemLink).enchantID
+                        local socket1 = ParseItemLink(itemLink).socket1
+                        local socket2 = ParseItemLink(itemLink).socket2
+                        local socket3 = ParseItemLink(itemLink).socket3
+                        local emptySockets = EmptySockets(itemLink)
                         realItemLevel = realItemLevel or ""
+
+                        -- Set Enchant-Text & Socket positions
+                        if (itemsLeft[i]) then
+                            frame[i].Enchant:SetPoint("TOPLEFT", frame[i], "TOPLEFT", 40, 0)
+                            frame[i].Socket1:SetPoint("TOPLEFT", frame[i], "TOPLEFT", 42, -12)
+                            frame[i].Socket2:SetPoint("RIGHT", frame[i].Socket1, "RIGHT", 14.5, 0)
+                            frame[i].Socket3:SetPoint("RIGHT", frame[i].Socket2, "RIGHT", 14.5, 0)
+                        elseif (itemsRight[i]) then
+                            frame[i].Enchant:SetPoint("TOPRIGHT", frame[i], "TOPRIGHT", -40, 0)
+                            frame[i].Socket1:SetPoint("TOPRIGHT", frame[i], "TOPRIGHT", -42, -12)
+                            frame[i].Socket2:SetPoint("LEFT", frame[i].Socket1, "LEFT", -14, 0)
+                            frame[i].Socket3:SetPoint("LEFT", frame[i].Socket2, "LEFT", -14, 0)
+                        elseif (i == 16) then
+                            frame[i].Enchant:SetPoint("BOTTOMRIGHT", frame[i], "BOTTOMRIGHT", -40, -25)
+                        elseif (i == 17) then
+                            frame[i].Enchant:SetPoint("TOP", frame[i], "TOP", 0, 20)
+                            frame[i].Socket1:SetPoint("TOP", frame[i], "TOP", 0, 35)
+                        elseif (i == 18) then
+                            frame[i].Enchant:SetPoint("BOTTOMRIGHT", frame[i], "BOTTOMRIGHT", 55, -35)
+                            frame[i].Socket1:SetPoint("TOPRIGHT", frame[i], "TOPRIGHT", 25, -22)
+                        end
+
+                        -- Set Enchant Text
+                        if (enchantID) then
+                            if (GetEnchantNameByID[enchantID]) then
+                                frame[i].Enchant:SetTextColor(0, 1, 0, 1)
+                                frame[i].Enchant:SetText(GetEnchantNameByID[enchantID])
+                            end
+                        else
+                            if (NoEnchantText(itemLink, i, true, "player")) then
+                                frame[i].Enchant:SetTextColor(1, 0, 0, 1)
+                                frame[i].Enchant:SetText("No Enchant")
+                            else
+                                frame[i].Enchant:SetText("")
+                            end
+                        end
+
+                        -- Set Socket Textures
+                        if (socket1) then
+                            frame[i].Socket1:SetText(SocketTexture(socket1))
+                        else
+                            if (emptySockets[1]) then
+                                local texture = EmptySocketTextures[emptySockets[1]]
+                                if (texture) then
+                                    frame[i].Socket1:SetText("\124T"..texture..":0\124t")
+                                else
+                                    frame[i].Socket1:SetText("\124T458977:0\124t")
+                                end
+                            else
+                                frame[i].Socket1:SetText("")
+                            end
+                        end
+
+                        if (socket2) then
+                            frame[i].Socket2:SetText(SocketTexture(socket2))
+                        else
+                            if (emptySockets[2]) then
+                                local texture = EmptySocketTextures[emptySockets[2]]
+                                if (texture) then
+                                    frame[i].Socket2:SetText("\124T"..texture..":0\124t")
+                                else
+                                    frame[i].Socket2:SetText("\124T458977:0\124t")
+                                end
+                            else
+                                frame[i].Socket2:SetText("")
+                            end
+                        end
+
+                        if (socket3) then
+                            frame[i].Socket3:SetText(SocketTexture(socket3))
+                        else
+                            if (emptySockets[3]) then
+                                local texture = EmptySocketTextures[emptySockets[3]]
+                                if (texture) then
+                                    frame[i].Socket3:SetText("\124T"..texture..":0\124t")
+                                else
+                                    frame[i].Socket3:SetText("\124T458977:0\124t")
+                                end
+                            else
+                                frame[i].Socket3:SetText("")
+                            end
+                        end
 
                         local itemiLvlText = "";
                         if (quality) then
@@ -60,6 +187,10 @@ function Module:OnEnable()
                         frame[i]:SetText(itemiLvlText)
                     else
                         frame[i]:SetText("")
+                        frame[i].Enchant:SetText("")
+                        frame[i].Socket1:SetText("")
+                        frame[i].Socket2:SetText("")
+                        frame[i].Socket3:SetText("")
                     end
                 end
             end
@@ -67,7 +198,7 @@ function Module:OnEnable()
 
         local function _createStrings()
             local function _stringFactory(parent)
-                local s = f:CreateFontString(nil, "OVERLAY", "SystemFont_Outline")
+                local s = f:CreateFontString(parent:GetName(), "OVERLAY", "SystemFont_Outline")
                 s:SetPoint("TOP", parent, "TOP", 0, -2)
 
                 return s
@@ -75,6 +206,7 @@ function Module:OnEnable()
 
             f:SetFrameLevel(_G.CharacterHeadSlot:GetFrameLevel())
 
+            -- Left
             f[1] = _stringFactory(_G.CharacterHeadSlot)
             f[2] = _stringFactory(_G.CharacterNeckSlot)
             f[3] = _stringFactory(_G.CharacterShoulderSlot)
@@ -82,6 +214,7 @@ function Module:OnEnable()
             f[5] = _stringFactory(_G.CharacterChestSlot)
             f[9] = _stringFactory(_G.CharacterWristSlot)
 
+            -- Right
             f[10] = _stringFactory(_G.CharacterHandsSlot)
             f[6] = _stringFactory(_G.CharacterWaistSlot)
             f[7] = _stringFactory(_G.CharacterLegsSlot)
@@ -91,6 +224,7 @@ function Module:OnEnable()
             f[13] = _stringFactory(_G.CharacterTrinket0Slot)
             f[14] = _stringFactory(_G.CharacterTrinket1Slot)
 
+            -- Bottom
             f[16] = _stringFactory(_G.CharacterMainHandSlot)
             f[17] = _stringFactory(_G.CharacterSecondaryHandSlot)
             f[18] = _stringFactory(_G.CharacterRangedSlot)
@@ -108,6 +242,7 @@ function Module:OnEnable()
 
             g:SetFrameLevel(_G.InspectHeadSlot:GetFrameLevel())
 
+            -- Left
             g[1] = _stringFactory(_G.InspectHeadSlot)
             g[2] = _stringFactory(_G.InspectNeckSlot)
             g[3] = _stringFactory(_G.InspectShoulderSlot)
@@ -115,6 +250,7 @@ function Module:OnEnable()
             g[5] = _stringFactory(_G.InspectChestSlot)
             g[9] = _stringFactory(_G.InspectWristSlot)
 
+            -- Right
             g[10] = _stringFactory(_G.InspectHandsSlot)
             g[6] = _stringFactory(_G.InspectWaistSlot)
             g[7] = _stringFactory(_G.InspectLegsSlot)
@@ -124,6 +260,7 @@ function Module:OnEnable()
             g[13] = _stringFactory(_G.InspectTrinket0Slot)
             g[14] = _stringFactory(_G.InspectTrinket1Slot)
 
+            -- Bottom
             g[16] = _stringFactory(_G.InspectMainHandSlot)
             g[17] = _stringFactory(_G.InspectSecondaryHandSlot)
             g[18] = _stringFactory(_G.InspectRangedSlot)
@@ -193,7 +330,7 @@ function Module:OnEnable()
                     if itemLink then
                         local _, _, quality, itemlevel, _, _, _, _, _, _, _, itemClassID = GetItemInfo(itemLink)
 
-                        if (itemlevel > 100) then
+                        if (itemlevel and itemlevel > 100) then
                             local itemiLvlText = ""
                             if (quality) then
                                 local hex = select(4, GetItemQualityColor(quality))
