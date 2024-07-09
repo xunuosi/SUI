@@ -47,12 +47,13 @@ function Module:OnEnable()
       local function getFPS() return "|c00ffffff" .. floor(GetFramerate()) .. "|r fps" end
       local function getLatencyWorld() return "|c00ffffff" .. select(4, GetNetStats()) .. "|r ms" end
       local function getLatency() return "|c00ffffff" .. select(3, GetNetStats()) .. "|r ms" end
+      
       if (db.display.fps and db.display.ms) then
-        return getFPS() .. " " .. getLatency()
-      elseif (db.display.fps)  then
-        return getFPS()
+        return getFPS() .. " " .. getLatency() .. " " .. getExp()
+      elseif (db.display.fps) then
+        return getFPS() .. " " .. getExp()
       elseif (db.display.ms) then
-        return getLatency()
+        return getLatency() .. " " .. getExp()
       end
     end
 
@@ -80,5 +81,28 @@ function Module:OnEnable()
     end
 
     StatsFrame:SetScript("OnUpdate", update)
+    StatsFrame:RegisterEvent("PLAYER_XP_UPDATE")
+    StatsFrame:SetScript("OnEvent", update)
+  end
+end
+
+function getExp()
+  if MainMenuExpBar:IsShown() then 
+    local currentXP = UnitXP("player")
+    local maxXP = UnitXPMax("player")
+    local xpPercentage = (currentXP / maxXP) * 100
+
+    -- Determine color based on XP percentage
+    local color
+    if xpPercentage < 50 then
+      color = "|c00ff0000"  -- Red for less than 50%
+    elseif xpPercentage < 75 then
+      color = "|c00ffff00"  -- Yellow for 50% to 75%
+    else
+      color = "|c0000ff00"  -- Green for more than 75%
+    end
+    return color .. "XP: " .. currentXP .. " / " .. maxXP .. " (" .. floor(xpPercentage) .. "%)|r"
+  else
+    return ""
   end
 end
