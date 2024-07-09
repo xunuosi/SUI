@@ -13,6 +13,7 @@ function Module:OnEnable()
     invisible:Hide()
 
     local BlizzArt = {
+      MainMenuBarTextureExtender,
       MainMenuBarArtFrameBackground,
       MainMenuBarTexture0,
       MainMenuBarTexture1,
@@ -46,15 +47,35 @@ function Module:OnEnable()
       StanceBarLeft,
       StanceBarMiddle,
       StanceBarRight,
+      -- MinimapBorder,
     }
 
     for _, frame in pairs(BlizzArt) do
       frame:SetParent(invisible)
+      -- frame:Hide()
+      -- frame:SetBackdropColor(0, 0, 0, 0)
     end
 
     local holder = CreateFrame("Frame", "MainMenuBarHolderFrame", UIParent)
     holder:SetSize(size * 12 + spacing * 11, size)
-    holder:SetPoint("BOTTOM", UIParent, 0, 22)
+    holder:SetPoint("BOTTOM", UIParent, 0, 3)
+
+    local function showExpBar()
+         -- Experience bar Size and Position
+         MainMenuExpBar:SetWidth(540)
+         MainMenuExpBar:SetHeight(8)
+         MainMenuExpBar:ClearAllPoints()
+         MainMenuExpBar:SetPoint("BOTTOM", UIParent, 0, 0)
+         MainMenuExpBar:SetFrameStrata("LOW")
+       ExhaustionTick:SetFrameStrata("MEDIUM")
+   
+       -- Experience bar text Position
+       MainMenuBarExpText:ClearAllPoints()
+       MainMenuBarExpText:SetPoint("CENTER", MainMenuExpBar, 0, 1)
+       -- Experience bar Font
+       MainMenuBarExpText:SetFont("Fonts\\FRIZQT___CYR.TTF", 10, "OUTLINE")
+       -- Experience bar text Strata
+    end  
 
     local function updatePositions()
       ActionButton1:ClearAllPoints()

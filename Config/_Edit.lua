@@ -5,7 +5,7 @@ function Edit:OnEnable()
 	local SUIConfig = LibStub('SUIConfig');
 	SUIConfig.config = {
 	  font = {
-		  family    = "Interface\\AddOns\\SUI_Config\\Media\\Fonts\\Prototype.ttf",
+		  family    = "Interface\\AddOns\\SUI_Config\\Media\\Fonts\\FRIZQT___CYR.ttf",
 		  size      = 12,
 		  titleSize = 16,
 		  effect    = 'NONE',

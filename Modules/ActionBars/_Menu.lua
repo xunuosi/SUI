@@ -60,6 +60,7 @@ function Module:OnEnable()
       AchievementMicroButton,
       QuestLogMicroButton,
       SocialsMicroButton,
+      CollectionsMicroButton,
       PVPMicroButton,
       LFGMicroButton,
       MainMenuMicroButton,
